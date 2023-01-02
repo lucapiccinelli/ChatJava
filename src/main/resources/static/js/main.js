@@ -62,10 +62,10 @@ function onError(error) {
 
 
 function send(event) {
-    var messageContent = messageInput.value.trim();
+    const messageContent = messageInput.value.trim();
 
     if(messageContent && stompClient) {
-        var chatMessage = {
+        const chatMessage = {
             sender: username,
             content: messageInput.value,
             type: 'CHAT'
