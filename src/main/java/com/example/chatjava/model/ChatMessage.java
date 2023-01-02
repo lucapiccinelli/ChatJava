@@ -37,6 +37,3 @@ public class ChatMessage {
     }
 }
 
-enum MessageType{
-    CHAT, LEAVE, JOIN
-}
