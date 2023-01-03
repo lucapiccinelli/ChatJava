@@ -70,7 +70,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <image>
-                        <name>lucapiccinelli/chatjava:${version}</name>
+                        <name>lucapiccinelli/chatjava:${project.version}</name>
                         <publish>${image.publish}</publish>
                         <docker>
                             <publishRegistry>
