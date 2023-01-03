@@ -1,10 +1,15 @@
 package com.example.chatjava.model;
 
+import java.util.Objects;
+
 public class ChatMessage {
 
     private String sender;
     private String content;
     MessageType type;
+
+    public ChatMessage() {
+    }
 
     public ChatMessage(String sender, String content, MessageType type) {
         this.sender = sender;
@@ -34,6 +39,28 @@ public class ChatMessage {
 
     public void setType(MessageType type) {
         this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return "ChatMessage{" +
+                "sender='" + sender + '\'' +
+                ", content='" + content + '\'' +
+                ", type=" + type +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ChatMessage message = (ChatMessage) o;
+        return Objects.equals(sender, message.sender) && Objects.equals(content, message.content) && type == message.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(sender, content, type);
     }
 }
 
