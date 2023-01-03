@@ -15,7 +15,31 @@
     <description>ChatJava</description>
     <properties>
         <java.version>17</java.version>
+        <image.publish>false</image.publish>
+<!--        <spring-boot.build-image.imageName>lucapiccinelli/chatjava</spring-boot.build-image.imageName>-->
     </properties>
+    <profiles>
+        <profile>
+            <id>native</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.graalvm.buildtools</groupId>
+                        <artifactId>native-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>build-native</id>
+                                <goals>
+                                    <goal>compile-no-fork</goal>
+                                </goals>
+                                <phase>package</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -44,6 +68,31 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <image>
+                        <name>lucapiccinelli/chatjava:${version}</name>
+                        <publish>${image.publish}</publish>
+                        <docker>
+                            <publishRegistry>
+                                <username>user</username>
+                                <password>secret</password>
+                            </publishRegistry>
+                        </docker>
+                        <builder>paketobuildpacks/builder:tiny</builder>
+                        <buildpacks>
+                            <buildpack>gcr.io/paketo-buildpacks/ca-certificates:latest</buildpack>
+                            <buildpack>gcr.io/paketo-buildpacks/adoptium:latest</buildpack>
+                            <buildpack>gcr.io/paketo-buildpacks/syft:latest</buildpack>
+                            <buildpack>gcr.io/paketo-buildpacks/executable-jar:latest</buildpack>
+                            <buildpack>gcr.io/paketo-buildpacks/dist-zip:latest</buildpack>
+                            <buildpack>gcr.io/paketo-buildpacks/spring-boot:latest</buildpack>
+                        </buildpacks>
+                        <env>
+                            <BP_NATIVE_IMAGE>false</BP_NATIVE_IMAGE>
+                            <BP_JVM_VERSION>17</BP_JVM_VERSION>
+                        </env>
+                    </image>
+                </configuration>
             </plugin>
         </plugins>
     </build>
