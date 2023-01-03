@@ -26,7 +26,8 @@ jobs:
       with:
         java-version: '17'
         distribution: 'adopt-hotspot'
-        cache: maven    
+        cache: maven
+      run: if [ "$GITHUB_REF_TYPE" == "tag" ]; then echo "MY_VERSION=${GITHUB_REF_NAME}"; else echo "MY_VERSION=${{ github.sha }}; fi" >> $GITHUB_ENV
     - name: Cache local Maven repository
       uses: actions/cache@v3.2.2
       with:
@@ -36,5 +37,5 @@ jobs:
           ${{ runner.os }}-maven-
     - name: Build with Maven
       run: |
-        mvn versions:set -DnewVersion="${{ github.sha }}" --file pom.xml
+        mvn versions:set -DnewVersion="${{ env.MY_VERSION }}" --file pom.xml
         mvn -B package --file pom.xml
