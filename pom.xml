@@ -69,15 +69,16 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+                    <docker>
+                        <publishRegistry>
+                            <url>https://ghcr.io</url>
+                            <username>lucapiccinelli</username>
+                            <password>${env.CA_PAT}</password>
+                        </publishRegistry>
+                    </docker>
                     <image>
-                        <name>lucapiccinelli/chatjava:${project.version}</name>
+                        <name>ghcr.io/lucapiccinelli/chatjava:${project.version}</name>
                         <publish>${image.publish}</publish>
-                        <docker>
-                            <publishRegistry>
-                                <username>user</username>
-                                <password>secret</password>
-                            </publishRegistry>
-                        </docker>
                         <builder>paketobuildpacks/builder:tiny</builder>
                         <buildpacks>
                             <buildpack>gcr.io/paketo-buildpacks/ca-certificates:latest</buildpack>
