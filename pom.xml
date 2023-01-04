@@ -116,10 +116,12 @@
                             <buildpack>gcr.io/paketo-buildpacks/executable-jar:latest</buildpack>
                             <buildpack>gcr.io/paketo-buildpacks/dist-zip:latest</buildpack>
                             <buildpack>gcr.io/paketo-buildpacks/spring-boot:latest</buildpack>
+                            <buildpack>gcr.io/paketo-buildpacks/environment-variables:latest</buildpack>
                         </buildpacks>
                         <env>
                             <BP_NATIVE_IMAGE>false</BP_NATIVE_IMAGE>
                             <BP_JVM_VERSION>17</BP_JVM_VERSION>
+                            <BPE_logType>json</BPE_logType>
                         </env>
                     </image>
                 </configuration>
