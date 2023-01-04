@@ -20,6 +20,17 @@
     </properties>
     <profiles>
         <profile>
+            <id>Default</id>
+            <activation>
+                <property>
+                    <name>!env.CR_PAT</name>
+                </property>
+            </activation>
+            <properties>
+                <env.CR_PAT>notoken</env.CR_PAT>
+            </properties>
+        </profile>
+        <profile>
             <id>native</id>
             <build>
                 <plugins>
