@@ -73,7 +73,7 @@
                         <publishRegistry>
                             <url>https://ghcr.io</url>
                             <username>lucapiccinelli</username>
-                            <password>${env.CA_PAT}</password>
+                            <password>${env.CR_PAT}</password>
                         </publishRegistry>
                     </docker>
                     <image>
