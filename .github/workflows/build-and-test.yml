@@ -36,8 +36,9 @@ jobs:
         key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
         restore-keys: |
           ${{ runner.os }}-maven-
+    - name: Set env variables
+      run: if [ "${{ github.ref_type }}" == "tag" ]; then echo "MY_VERSION=${{ github.ref_name }}"; else echo "MY_VERSION=${{ github.sha }}"; fi >> $GITHUB_ENV
     - name: Build with Maven
       run: |
-        if [ "${{ github.ref_type }}" == "tag" ]; then echo "MY_VERSION=${{ github.ref_name }}"; else echo "MY_VERSION=${{ github.sha }}"; fi >> $GITHUB_ENV
         mvn versions:set -DnewVersion="${{ env.MY_VERSION }}" --file pom.xml
         mvn -B package --file pom.xml
