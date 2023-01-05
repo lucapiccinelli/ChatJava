@@ -69,9 +69,8 @@ fi
 
 
 build=false
-production=false
 
-options=$(getopt -l "detached,port:,name:,build,image:tag:,production" -o "dp:n:b,i:t:" -a -- "$@")
+options=$(getopt -l "detached,port:,name:,build,image:tag:" -o "dp:n:b,i:t:" -a -- "$@")
 eval set -- "$options"
 
 while true
@@ -94,9 +93,6 @@ case $1 in
       ;;
   -t|--tag)
       export image_tag_arg=$2
-      ;;
-  --production)
-      export production=true
       ;;
   --)
       shift
@@ -139,8 +135,9 @@ echo ELK_VERSION=8.5.3 >> env-file
 echo ENTRY_POINT_IMAGE_NAME=$image >> env-file
 echo ENTRY_POINT_PORT=$entry_points_port >> env-file
 echo KIBANA_PORT=$((entry_points_port+1)) >> env-file
-echo ELASTIC_PASSWORD=banana >> env-file
-echo KIBANA_PASSWORD=banana >> env-file
+echo ELASTIC_PASSWORD=${ELASTIC_PASSWORD:-banana} >> env-file
+echo KIBANA_PASSWORD=${KIBANA_PASSWORD:-banana} >> env-file
+echo FILEBEAT_PASSWORD=${FILEBEAT_PASSWORD:-banana} >> env-file
 
 echo starting with image ${image}
 

@@ -16,7 +16,9 @@ services:
       bash -c '
         echo "Setting kibana_system password";
         until curl -s -X POST -u "elastic:${ELASTIC_PASSWORD}" -H "Content-Type: application/json" http://elastic:9200/_security/user/kibana_system/_password -d "{\"password\":\"${KIBANA_PASSWORD}\"}" | grep -q "^{}"; do sleep 10; done;
-        echo "Good to go!";
+        echo "Good to go kibana!";
+        until curl -s -X POST -u "elastic:${ELASTIC_PASSWORD}" -H "Content-Type: application/json" http://elastic:9200/_security/user/beats_system/_password -d "{\"password\":\"${FILEBEAT_PASSWORD}\"}" | grep -q "^{}"; do sleep 10; done;
+        echo "Good to go filebeat!";
       '
     networks:
       - chat-java
@@ -44,8 +46,8 @@ services:
       - ./filebeat.yml:/usr/share/filebeat/filebeat.yml
       - chat-java:/workspace/logs
     environment:
-      - ELASTICSEARCH_USERNAME=elastic
-      - ELASTICSEARCH_PASSWORD=${ELASTIC_PASSWORD}
+      - FILEBEAT_USERNAME=elastic
+      - FILEBEAT_PASSWORD=${ELASTIC_PASSWORD}
     networks:
       - chat-java
 
