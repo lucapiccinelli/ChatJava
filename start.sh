@@ -139,6 +139,8 @@ echo ELK_VERSION=8.5.3 >> env-file
 echo ENTRY_POINT_IMAGE_NAME=$image >> env-file
 echo ENTRY_POINT_PORT=$entry_points_port >> env-file
 echo KIBANA_PORT=$((entry_points_port+1)) >> env-file
+echo ELASTIC_PASSWORD=banana >> env-file
+echo KIBANA_PASSWORD=banana >> env-file
 
 echo starting with image ${image}
 

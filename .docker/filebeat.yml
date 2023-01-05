@@ -8,6 +8,8 @@ filebeat.inputs:
 
 output.elasticsearch.index: "chatjava-%{+yyyy.MM.dd}"
 output.elasticsearch.hosts: ["http://elastic:9200"]
+output.elasticsearch.username: ${ELASTICSEARCH_USERNAME}
+output.elasticsearch.password: ${ELASTICSEARCH_PASSWORD}
 
 setup.template.name: 'chatjava'
 setup.template.pattern: 'chatjava-*'
