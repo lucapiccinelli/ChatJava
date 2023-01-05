@@ -1,0 +1,52 @@
+version: "3.9"
+services:
+  chatjava:
+    image: ${ENTRY_POINT_IMAGE_NAME}
+    ports:
+      - ${ENTRY_POINT_PORT}:8080
+    volumes:
+      - chat-java:/workspace/logs
+    networks:
+      - chat-java
+
+  elastic:
+    image: elasticsearch:${ELK_VERSION}
+    environment:
+      - cluster.name=chatjava-cluster
+      - http.port=9200
+      - transport.port=9300
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
+    volumes:
+      - chat-java-elastic:/usr/share/elasticsearch/data
+    networks:
+      - chat-java
+
+  filebeat:
+    image: elastic/filebeat:${ELK_VERSION}
+    command: filebeat -e -strict.perms=false
+    volumes:
+      - ./filebeat.yml:/usr/share/filebeat/filebeat.yml
+      - chat-java:/workspace/logs
+    networks:
+      - chat-java
+
+  kibana:
+    image: kibana:${ELK_VERSION}
+    ports:
+      - ${KIBANA_PORT}:5601
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elastic:9200
+    depends_on:
+      - elastic
+    networks:
+      - chat-java
+
+networks:
+  chat-java: {}
+
+volumes:
+  chat-java: {}
+  chat-java-elastic: {}

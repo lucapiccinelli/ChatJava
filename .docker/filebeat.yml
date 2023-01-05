@@ -1,0 +1,22 @@
+filebeat.inputs:
+- type: log
+  enabled: true
+  json.keys_under_root: true
+  json.add_error_key: true
+  paths:
+    - /workspace/logs/*.log
+
+output.elasticsearch.index: "chatjava-%{+yyyy.MM.dd}"
+output.elasticsearch.hosts: ["http://elastic:9200"]
+
+setup.template.name: 'chatjava'
+setup.template.pattern: 'chatjava-*'
+setup.template.enabled: false
+
+setup.kibana.host: "kibana:5601"
+
+setup.ilm.enabled: true
+setup.ilm.rollover_alias: "chatjava-%{+yyyy.MM.dd}"
+setup.ilm.policy_name: g3plogging
+setup.ilm.check_exists: false
+setup.ilm.overwrite: true
