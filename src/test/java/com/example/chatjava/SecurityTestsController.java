@@ -7,14 +7,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SecurityTestsController {
 
-    @GetMapping("/unprotected/test")
+    @GetMapping("/public/test")
     public String sayHi(){
         return "Hello";
     }
 
-    @GetMapping("/api/test")
+    @GetMapping("/basic/test")
     public String sayNope(){
         return "Nope";
+    }
+
+    @GetMapping("/api/test")
+    public String withJwt(){
+        return "Requires jwt";
     }
 
 }
