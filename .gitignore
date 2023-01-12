@@ -34,3 +34,4 @@ build/
 .vscode/
 logs/
 env-file
+/src/main/resources/application-local.properties

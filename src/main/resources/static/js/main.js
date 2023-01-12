@@ -30,10 +30,31 @@ function connect(event) {
         usernamePage.classList.add('hidden');
         chatPage.classList.remove('hidden');
 
-        const socket = new SockJS('/chat');
-        stompClient = Stomp.over(socket);
+        $.ajax({
+            url: "/csrf",
+            dataType: "json",
+            type: "Get",
+            async: true,
+            success: function(csrf){
+                $.ajax({
+                    url: "/token",
+                    dataType: "json",
+                    headers: {
+                      'X-CSRF-TOKEN' : csrf.token
+                    },
+                    type: "Post",
+                    async: true,
+                    success: function(data){
+                        const socket = new SockJS('chat/?access_token=' + data.access_token);
+                        stompClient = Stomp.over(socket);
 
-        stompClient.connect({}, onConnected, onError);
+                        let headers = {};
+                        headers[csrf.headerName] = csrf.token;
+                        stompClient.connect(headers, onConnected, onError);
+                    }
+                });
+            }
+        });
     }
     event.preventDefault();
 }
